@@ -3,18 +3,20 @@ channels:
     - pytorch
     - conda-forge
 dependencies:
-    - python=3.10
+    - python=3.8
     - cudatoolkit=11.3
-    - pytorch=1.12.1=py3.10_cuda11.3_cudnn8.3.2_0
+    - pytorch=1.12.1=py3.8_cuda11.3_cudnn8.3.2_0
+    - tensorflow=2.9.1=cuda112py38hded6998_0
     - pandas
     - matplotlib
     - seaborn
-    - rdkit
+    - rdkit=2022.03.5
     - numpy
     - jupyter
-    - json
-    - wandb
+    - networkx
+    - wandb=0.13.1
     - tqdm
+    - pomegranate=0.12.0
     - molsets=0.3.1
     - guacamol=0.5.2
     - pip
