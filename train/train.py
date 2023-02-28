@@ -55,9 +55,9 @@ if __name__ == '__main__':
 
     set_seed(42)
 
-    wandb.init(project="lig_gpt", name=args.run_name)
+    wandb.init(project="MolGPT", name=args.run_name)
 
-    data = pd.read_csv('datasets/' + args.data_name + '.csv')
+    data = pd.read_csv(args.data_name + '.csv')
     data = data.dropna(axis=0).reset_index(drop=True)
     # data = data.sample(frac = 0.1).reset_index(drop=True)
     data.columns = data.columns.str.lower()
@@ -132,9 +132,9 @@ if __name__ == '__main__':
 
     tconf = TrainerConfig(max_epochs=args.max_epochs, batch_size=args.batch_size, learning_rate=args.learning_rate,
                             lr_decay=True, warmup_tokens=0.1*len(train_data)*max_len, final_tokens=args.max_epochs*len(train_data)*max_len,
-                            num_workers=10, ckpt_path=f'../cond_gpt/weights/{args.run_name}.pt', block_size=train_dataset.max_len, generate=False)
+                            num_workers=10, ckpt_path=f'./weights/{args.run_name}.pt', block_size=train_dataset.max_len, generate=False)
     trainer = Trainer(model, train_dataset, valid_dataset,
                         tconf, train_dataset.stoi, train_dataset.itos)
     df = trainer.train(wandb)
 
-    df.to_csv(f'{args.run_name}.csv', index=False)
+    #df.to_csv(f'{args.run_name}.csv', index=False)

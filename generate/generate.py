@@ -57,7 +57,7 @@ if __name__ == '__main__':
         context = "C"
 
 
-        data = pd.read_csv('/home/viraj.bagal/viraj/ligflow/Code/code/cond_gpt/datasets/' + args.data_name + '.csv')
+        data = pd.read_csv(args.data_name + '.csv')
         data = data.dropna(axis=0).reset_index(drop=True)
         data.columns = data.columns.str.lower()
 
@@ -98,13 +98,13 @@ if __name__ == '__main__':
         else:
             scaffold_max_len = 100
 
-        # content = ' '.join(smiles + scaf)
-        # chars = sorted(list(set(regex.findall(content))))
+        content = ' '.join(smiles + scaf)
+        chars = sorted(list(set(regex.findall(content))))
 
-        # stoi = { ch:i for i,ch in enumerate(chars) }
+        stoi = { ch:i for i,ch in enumerate(chars) }
 
-        # with open(f'{args.data_name}_stoi.json', 'w') as f:
-        #         json.dump(stoi, f)
+        with open(f'{args.data_name}_stoi.json', 'w') as f:
+            json.dump(stoi, f)
 
         stoi = json.load(open(f'{args.data_name}_stoi.json', 'r'))
 
@@ -125,7 +125,7 @@ if __name__ == '__main__':
         model = GPT(mconf)
 
 
-        model.load_state_dict(torch.load('/home/viraj.bagal/viraj/ligflow/Code/code/cond_gpt/weights/' + args.model_weight))
+        model.load_state_dict(torch.load(args.model_weight))
         model.to('cuda')
         print('Model loaded')
 
@@ -472,4 +472,5 @@ if __name__ == '__main__':
         print('Valid ratio: ', np.round(len(results)/(args.batch_size*gen_iter*count), 3))
         print('Unique ratio: ', np.round(len(unique_smiles)/len(results), 3))
         print('Novelty ratio: ', np.round(novel_ratio/100, 3))
+
 
