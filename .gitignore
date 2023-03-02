@@ -2,6 +2,7 @@
 datasets/
 *.ipynb
 wandb/
+results/*.csv
 
 # Byte-compiled / optimized / DLL files
 

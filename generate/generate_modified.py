@@ -369,14 +369,14 @@ if __name__ == '__main__':
                         novel_ratio = check_novelty(unique_smiles, set(data[data['source']=='train']['smiles']))   # replace 'source' with 'split' for moses
 
 
-                print(f'Scaffold: {j}')
+                print(f'Scaffold: {j.replace("<", "")}')
                 print('Valid ratio: ', np.round(len(results)/(args.batch_size*gen_iter), 3))
                 print('Unique ratio: ', np.round(len(unique_smiles)/len(results), 3))
                 print('Novelty ratio: ', np.round(novel_ratio/100, 3))
 
                 
                         
-                results['scaffold_cond'] = j
+                results['scaffold_cond'] = j.replace("<", "")
                 results['qed'] = results['molecule'].apply(lambda x: QED.qed(x) )
                 results['sas'] = results['molecule'].apply(lambda x: sascorer.calculateScore(x))
                 results['logp'] = results['molecule'].apply(lambda x: Crippen.MolLogP(x) )
@@ -440,7 +440,7 @@ if __name__ == '__main__':
 
 
                     print(f'Condition: {c}')
-                    print(f'Scaffold: {j}')
+                    print(f'Scaffold: {j.replace("<", "")}')
                     print('Valid ratio: ', np.round(len(results)/(args.batch_size*gen_iter), 3))
                     print('Unique ratio: ', np.round(len(unique_smiles)/len(results), 3))
                     print('Novelty ratio: ', np.round(novel_ratio/100, 3))
@@ -453,7 +453,7 @@ if __name__ == '__main__':
                     else:
                             results['condition'] = str((c[0], c[1], c[2]))
                             
-                    results['scaffold_cond'] = j
+                    results['scaffold_cond'] = j.replace("<", "")
                     results['qed'] = results['molecule'].apply(lambda x: QED.qed(x) )
                     results['sas'] = results['molecule'].apply(lambda x: sascorer.calculateScore(x))
                     results['logp'] = results['molecule'].apply(lambda x: Crippen.MolLogP(x) )
@@ -466,6 +466,7 @@ if __name__ == '__main__':
 
 
         results = pd.concat(all_dfs)
+        results = results.drop("molecule", axis=1)
         results.to_csv('results/' + args.csv_name + '.csv', index = False)
 
         #unique_smiles = list(set(results['smiles']))
