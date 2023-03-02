@@ -89,7 +89,9 @@ if __name__ == '__main__':
 
         lens = [len(regex.findall(i)) for i in scaf]
         scaffold_max_len = max(lens)
+        #print(f"scaf max len: {scaffold_max_len}")
         
+        """comment out
         scaf = [ i + str('<')*(scaffold_max_len - len(regex.findall(i))) for i in scaf]
         if ('moses' in args.data_name) and args.scaffold:
             scaffold_max_len=48
@@ -97,6 +99,7 @@ if __name__ == '__main__':
             scaffold_max_len = 98
         else:
             scaffold_max_len = 100
+        """
 
         content = ' '.join(smiles + scaf)
         chars = sorted(list(set(regex.findall(content))))
@@ -463,19 +466,19 @@ if __name__ == '__main__':
 
 
         results = pd.concat(all_dfs)
-        results.to_csv('gen_csv_again/' + args.csv_name + '.csv', index = False)
+        results.to_csv('results/' + args.csv_name + '.csv', index = False)
 
-        unique_smiles = list(set(results['smiles']))
-        canon_smiles = [canonic_smiles(s) for s in results['smiles']]
-        unique_smiles = list(set(canon_smiles))
-        if 'moses' in args.data_name:
-                novel_ratio = check_novelty(unique_smiles, set(data[data['split']=='train']['smiles']))    # replace 'source' with 'split' for moses
-        else:
-                novel_ratio = check_novelty(unique_smiles, set(data[data['source']=='train']['smiles']))    # replace 'source' with 'split' for moses
+        #unique_smiles = list(set(results['smiles']))
+        #canon_smiles = [canonic_smiles(s) for s in results['smiles']]
+        #unique_smiles = list(set(canon_smiles))
+        #if 'moses' in args.data_name:
+        #        novel_ratio = check_novelty(unique_smiles, set(data[data['split']=='train']['smiles']))    # replace 'source' with 'split' for moses
+        #else:
+        #        novel_ratio = check_novelty(unique_smiles, set(data[data['source']=='train']['smiles']))    # replace 'source' with 'split' for moses
                
 
-        print('Valid ratio: ', np.round(len(results)/(args.batch_size*gen_iter*count), 3))
-        print('Unique ratio: ', np.round(len(unique_smiles)/len(results), 3))
-        print('Novelty ratio: ', np.round(novel_ratio/100, 3))
+        #print('Valid ratio: ', np.round(len(results)/(args.batch_size*gen_iter*count), 3))
+        #print('Unique ratio: ', np.round(len(unique_smiles)/len(results), 3))
+        #print('Novelty ratio: ', np.round(novel_ratio/100, 3))
 
 
